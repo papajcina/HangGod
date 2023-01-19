@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>Vesenje Bogovi</title>
+
+<script type="text/javascript">
+
+
+var gods = new Array("ZEUS", "CIRCE", "MERCURY", "HERMES", "ATHENA", "APOLLO", "ARACHNE", "HERA", "indEIDON", "HEPHAESTUS", "HADES", "NIKE", "NYX", "ANANKE", "CHRONOS", "CRONUS", "GAIA", "URANUS", "HYPERION", "DIONE", "DIONYSUS", "ARES", "ARTEMIS", "DEMETER");
+
+var guessThisGod = "";
+var whatisshown = "";
+var usedletters = "";
+var wrong_guesses = 0;
+
+
+function newGame()
+{
+	pickGod();
+	document.game.usedLetters.value = "";
+	usedletters = "";
+	wrong_guesses = 0;
+	document.hm.src="hmstart.gif";
+}
+
+function pickGod()
+{
+	randomNum = Math.round(Math.random() * (gods.length - 1));
+	guessThisGod = gods[randomNum];
+	
+	// display hiddened word
+	hiddenGod = hide(guessThisGod);
+	document.game.god.value = hiddenGod;
+	whatisshown = hiddenGod;
+}
+
+function hide(godtohide)
+{
+	hidden = "";
+	godlength = godtohide.length;
+
+
+	for (i = 0; i < godlength; i ++)
+	{
+		hidden += "#";
+	}
+	return hidden;
+}
+
+function selectLetter(letter)
+{	
+	usedletters += letter;
+	document.game.usedLetters.value = usedletters;
+	
+	if (guessThisGod.indexOf(letter) != -1) //ako sadrzi slovo
+	{
+		ind = 0;
+		hiddentemp = whatisshown;
+
+
+		while (guessThisGod.indexOf(letter, ind) != -1)
+		{
+			ind = guessThisGod.indexOf(letter, ind);			
+			end = ind + 1;
+
+			tekstpre = hiddentemp.substring(0, ind);
+			tekstposle = hiddentemp.substring(end, hiddentemp.length);
+
+			hiddentemp = tekstpre + letter + tekstposle;
+			ind = end;
+		}
+
+		whatisshown = hiddentemp;
+		document.game.god.value = whatisshown;
+		
+		if (whatisshown.indexOf("#") == -1)
+		{
+			alert("Bravo");
+		}
+	}
+	else
+	{
+		wrong_guesses += 1;
+		eval("document.hm.src=\"hm" + wrong_guesses + ".gif\"");
+		
+		if (wrong_guesses == 10)
+		{
+			alert("Game Over");
+		}
+	}
+}
+
+
+
+
+</script>
+<style>
+	body{
+		background-image: url('pozdi.png');
+		background-color: blue;
+		}
+		
+	p,h1{
+		color:white;
+		}
+</style>
+
+</head>
+
+<body onLoad="newGame(); return true;" style="text-align:center" >
+
+<h1>Greek God Hangman</h1>
+
+<p><img src="hmstart.gif" height="250" width="150" name="hm"></p>
+<form name="game">
+	<p>
+	Display Word: <input type="text" name="god"><br>
+	Used Letters: <input type="text" name="usedLetters">
+	</p>
+</form>
+
+<p>
+<a href="javascript:selectLetter('A');">A</a> | 
+<a href="javascript:selectLetter('B');">B</a> | 
+<a href="javascript:selectLetter('C');">C</a> | 
+<a href="javascript:selectLetter('D');">D</a> | 
+<a href="javascript:selectLetter('E');">E</a> | 
+<a href="javascript:selectLetter('F');">F</a> | 
+<a href="javascript:selectLetter('G');">G</a> | 
+<a href="javascript:selectLetter('H');">H</a> | 
+<a href="javascript:selectLetter('I');">I</a> | 
+<a href="javascript:selectLetter('J');">J</a> | 
+<a href="javascript:selectLetter('K');">K</a> | 
+<a href="javascript:selectLetter('L');">L</a>
+<a href="javascript:selectLetter('M');">M</a><br>
+<a href="javascript:selectLetter('N');">N</a> | 
+<a href="javascript:selectLetter('O');">O</a> | 
+<a href="javascript:selectLetter('P');">P</a> | 
+<a href="javascript:selectLetter('Q');">Q</a> | 
+<a href="javascript:selectLetter('R');">R</a> | 
+<a href="javascript:selectLetter('S');">S</a> | 
+<a href="javascript:selectLetter('T');">T</a> | 
+<a href="javascript:selectLetter('U');">U</a> | 
+<a href="javascript:selectLetter('V');">V</a> | 
+<a href="javascript:selectLetter('W');">W</a> | 
+<a href="javascript:selectLetter('X');">X</a> | 
+<a href="javascript:selectLetter('Y');">Y</a> | 
+<a href="javascript:selectLetter('Z');">Z</a>
+</p>
+
+<p><a href="javascript:newGame()">New Game</a></p>
+
+
+</body>
+</html>
+
